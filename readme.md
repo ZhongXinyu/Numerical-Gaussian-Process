@@ -92,7 +92,10 @@ Notebook for plotting graphs and visualizations of results
 
 
 ## Usage
-To run the project, you can use the example notebooks in the `src` directory.
+To run the project, you can use the example notebooks in the `src\solver` directory.
+
+A new function is written under the GPJax framework to update the variance of the artificial data points. The new function is called \texttt{predict\_with\_noise}, and can be found within \texttt{src/utilities.py}.
+To be able to use the new function, the function in the should be copied under the \texttt{ConjugatePosterior} class in file \texttt{gpjax/gps.py}. It should be placed after the \texttt{predict} function. It is important to note that the new function is not a part of the GPJax library, and it is only used in this project and should be copied manually.
 
 The notebooks contain the code for the Gaussian Process to solve linear partial differential equations, such as the Burger Equation and the Wave Equation.
 - Before running the notebooks, make sure to install the required packages in the environment.yml file, and edit the parameters in the notebooks as needed.
