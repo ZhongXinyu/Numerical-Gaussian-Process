@@ -65,6 +65,13 @@ The notebooks contain the code for the Gaussian Process to solve linear partial 
 
 The `plot_graphs.ipynb` notebook allows you to plot the results of the numerical Gaussian Process against the actual solution, or against different parameters.
 
+## Documentation
+The documentation is generated using doxygen and can be found in the `html` directory.
+To generate the documentation, run the following command in the root directory of the project:
+```bash
+doxygen Doxyfile
+```
+
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE.md) file for details
 
