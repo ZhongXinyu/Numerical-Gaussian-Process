@@ -1,5 +1,13 @@
 ####################################################################################################
 # This function should be manually added to the ConjugatePosteriors class in the gpjax/gps.py file.
+####################################################################################################
+
+import jax.numpy as jnp
+from gpjax.posteriors import GaussianDistribution
+from gpjax.utils import Dataset
+from gpjax import covariance as cola
+from jax import numpy as jnp
+from jax.numpy import ndarray as Array
 
 def predict_with_prev_cov(
     self,
@@ -7,7 +15,8 @@ def predict_with_prev_cov(
     train_data: Dataset,
     prev_cov: Num[Array, "N N"],
 ) -> GaussianDistribution:
-    r"""Query the predictive posterior distribution with a previous covariance matrix.
+    """
+    @brief Query the predictive posterior distribution with a previous covariance matrix.
 
     Conditional on a training data set, compute the GP's posterior
     predictive distribution for a given set of parameters, which takes into consideration of the previous covariance matrix passed in as a parameter.
