@@ -102,56 +102,18 @@ Installation of environment</h2>
 </div><!-- fragment --></li>
 </ol>
 <h1><a class="anchor" id="autotoc_md7"></a>
-Structure</h1>
-<div class="fragment"><div class="line">├── testdata</div>
-<div class="line">│   ├── burger_eqn.json</div>
-<div class="line">│   ├── wave_eqn.json</div>
-<div class="line"> </div>
-<div class="line">├── src</div>
-<div class="line">│   ├── solver</div>
-<div class="line">│   │   ├── burger_equation_solve_arcSin.ipynb</div>
-<div class="line">│   │   ├── burger_equation_solve_RBF.ipynb</div>
-<div class="line">│   │   ├── wave_equation_solve_RBF.ipynb</div>
-<div class="line"> </div>
-<div class="line">│   ├── data</div>
-<div class="line">│   │   ├── burger_equation.ipynb</div>
-<div class="line">│   │   ├── wave_equation.ipynb</div>
-<div class="line"> </div>
-<div class="line">│   ├── plot_graphs.ipynb</div>
-<div class="line"> </div>
-<div class="line"> </div>
-<div class="line">├── result</div>
-<div class="line">│   ├── Burger_{kernel}_{**}_test_points_{**}_noise_{**}_timestep</div>
-<div class="line">│   │   ├── error.npy</div>
-<div class="line">│   │   ├── u_mean.npy</div>
-<div class="line">│   │   ├── u_std.npy</div>
-<div class="line">│   │   ├── x.npy</div>
-<div class="line"> </div>
-<div class="line"> </div>
-<div class="line">├── report</div>
-<div class="line">│   ├── report.pdf</div>
-<div class="line">│   ├── executive_summary.pdf</div>
-<div class="line"> </div>
-<div class="line">├── environment.yml</div>
-<div class="line"> </div>
-<div class="line">├── LICENSE.md</div>
-<div class="line"> </div>
-<div class="line">├── Doxyfile</div>
-<div class="line"> </div>
-<div class="line">└── README.md</div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md8"></a>
 Folder Documentation</h1>
-<h2><a class="anchor" id="autotoc_md9"></a>
+<h2><a class="anchor" id="autotoc_md8"></a>
 <code>testdata</code> Directory</h2>
 <p><b>Purpose:</b> Contains example test data for equations.</p>
 <p><b>Contents:</b></p><ul>
 <li><code>burger_eqn.json</code>: Example data related to the Burger Equation.</li>
 <li><code>wave_eqn.json</code>: Example data related to the Wave Equation.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md10"></a>
+<h2><a class="anchor" id="autotoc_md9"></a>
 <code>report</code> Directory</h2>
 <p><b>Purpose:</b> Contains reports and analysis notebooks.</p>
-<h3><a class="anchor" id="autotoc_md11"></a>
+<h3><a class="anchor" id="autotoc_md10"></a>
 <code>solver</code> Subdirectory</h3>
 <p><b>Contents:</b></p><ul>
 <li><code><a class="el" href="burger__equation__solve__arc_sin_8ipynb.html">burger_equation_solve_arcSin.ipynb</a></code>: Notebook for solving the Burger Equation using the arcSin method.</li>
@@ -159,17 +121,17 @@ Folder Documentation</h1>
 <li><code><a class="el" href="wave__equation__solve___r_b_f_8ipynb.html">wave_equation_solve_RBF.ipynb</a></code>: Notebook for solving the Wave Equation using Radial Basis Functions (RBF).</li>
 <li><code><a class="el" href="kernels_8py.html">kernels.py</a></code>: Contains the kernel functions used in the notebooks.</li>
 </ul>
-<h3><a class="anchor" id="autotoc_md12"></a>
+<h3><a class="anchor" id="autotoc_md11"></a>
 <code>data</code> Subdirectory</h3>
 <p><b>Contents:</b></p><ul>
 <li><code><a class="el" href="burger__equation_8ipynb.html">burger_equation.ipynb</a></code>: Notebook for analysis or visualization related to the Burger Equation.</li>
 <li><code><a class="el" href="wave__equation_8ipynb.html">wave_equation.ipynb</a></code>: Notebook for analysis or visualization related to the Wave Equation.</li>
 <li><code><a class="el" href="_o_d_e_8py.html">ODE.py</a></code>: Contains the <a class="el" href="namespace_o_d_e.html">ODE</a> class for the Burger Equation and Wave Equation.</li>
 </ul>
-<h3><a class="anchor" id="autotoc_md13"></a>
+<h3><a class="anchor" id="autotoc_md12"></a>
 <code>plot_graphs.ipynb</code></h3>
 <p><b>Purpose:</b> Notebook for plotting graphs and visualizations of results</p>
-<h1><a class="anchor" id="autotoc_md14"></a>
+<h1><a class="anchor" id="autotoc_md13"></a>
 Usage</h1>
 <p>To run the project, you can use the example notebooks in the <code>src\solver</code> directory.</p>
 <p>A new function is written under the GPJax framework to update the variance of the artificial data points. The new function is called <code>predict_with_prev_cov()</code>, and can be found within <code><a class="el" href="utilities_8py.html">src/utilities.py</a></code>.</p>
@@ -177,8 +139,8 @@ Usage</h1>
 <p>The notebooks contain the code for the Gaussian Process to solve linear partial differential equations, such as the Burger Equation and the Wave Equation.</p><ul>
 <li>Before running the notebooks, make sure to install the required packages in the environment.yml file, and edit the parameters in the notebooks as needed.</li>
 </ul>
-<p>The <code><a class="el" href="plot__graphs_8ipynb.html">plot_graphs.ipynb</a></code> notebook allows you to plot the results of the Gaussian Process against the actual solution, or against different parameters.</p>
-<h1><a class="anchor" id="autotoc_md15"></a>
+<p>The <code><a class="el" href="plot__graphs_8ipynb.html">plot_graphs.ipynb</a></code> notebook allows you to plot the results of the numerical Gaussian Process against the actual solution, or against different parameters.</p>
+<h1><a class="anchor" id="autotoc_md14"></a>
 License</h1>
 <p>This project is licensed under the MIT License - see the <a class="el" href="md__l_i_c_e_n_s_e.html">LICENSE</a> file for details </p>
 </div></div><!-- PageDoc -->

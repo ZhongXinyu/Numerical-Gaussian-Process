@@ -1,3 +1,10 @@
+"""
+\page kernels.py
+
+This page contains the implementation of the kernels used in the GP model. The kernels are used to model the covariance between the data points in the GP model.
+"""
+
+# functions that define the kernels used in the GP model
 import jax
 import jax.numpy as jnp
 import gpjax as gpx
@@ -11,12 +18,28 @@ from gpjax.typing import (
     Array,
     ScalarFloat,
 )
-import tensorflow_probability.substrates.jax.bijectors as tfb
-    
-
 
 @dataclass
 class arcSin(gpx.kernels.AbstractKernel):
+    """
+    The arcSin kernel is a non-stationary kernel that is used as an alternative to the RBF kernel.
+    
+    The kernel is defined as:
+    k(x, x') = 2/pi * arcsin(2 * (sigma_0^2 + sigma^2 * x * x')/sqrt((1 + 2 * (sigma_0^2 + sigma^2 * x * x)) * (1 + 2* (sigma_0^2 + sigma^2 * x' * x')))
+
+    Methods:
+    __call__: Calculate the kernel value
+    dX: Calculate the derivative of the kernel with respect to X
+    dXp: Calculate the derivative of the kernel with respect to Xp
+    dX_dXp: Calculate the derivative of the kernel with respect to X and Xp
+    dX_dX: Calculate the derivative of the kernel with respect to X twice
+    dXp_dXp: Calculate the derivative of the kernel with respect to Xp twice
+    dXp2_dX: Calculate the derivative of the kernel with respect to Xp twice and X
+    dX2_dXp: Calculate the derivative of the kernel with respect to X twice and Xp
+    dX2_dXp2: Calculate the derivative of the kernel with respect to X twice and Xp twice
+
+    """
+
     # define parameters
     sigma_0: ScalarFloat = param_field(jnp.array(2.0), trainable = True)
     sigma: ScalarFloat = param_field(jnp.array(2.0), trainable = True)
@@ -27,16 +50,18 @@ class arcSin(gpx.kernels.AbstractKernel):
         X: Float[Array, "1 D"], 
         Xp: Float[Array, "1 D"]
     ) -> Float[Array, "1"]:
-        
+        """
+        Calculate the kernel value at X and Xp.
+        """
         # calculate the kernel
         k = (2/jnp.pi * jnp.arcsin(2 * (self.sigma_0**2 + self.sigma**2 * X * Xp)/
                                 jnp.sqrt((1 + 2 * (self.sigma_0**2 + self.sigma **2 * X * X)) * (1 + 2* (self.sigma_0**2 + self.sigma **2 * Xp * Xp))))).squeeze()
         return (k).squeeze()
         
-    
-    # @jax.jit
     def dX(self, X: Float[Array, "1 D"], Xp: Float[Array, "1 D"]) -> Float[Array, "1"]:
-        # calculate the derivative of the kernel with respect to X
+        """
+        Calculate the derivative of the kernel with respect to X.
+        """
         numerator = 4 * self.sigma**2 * (Xp - 2 * (X - Xp) * self.sigma_0**2)
         term1 = 1 + 2 * X**2 * self.sigma**2 + 2 * self.sigma_0**2
         term2 = 1 + 2 * Xp**2 * self.sigma**2 + 2 * self.sigma_0**2
@@ -45,9 +70,10 @@ class arcSin(gpx.kernels.AbstractKernel):
         )
         return (numerator / denominator).squeeze()
 
-    # @jax.jit
     def dXp(self, X: Float[Array, "1 D"], Xp: Float[Array, "1 D"]) -> Float[Array, "1"]:
-        # calculate the derivative of the kernel with respect to Xp
+        """
+        Calculate the derivative of the kernel with respect to Xp.
+        """
         numerator = 4 * self.sigma**2 * (X + 2 * (X - Xp) * self.sigma_0**2)
         term1 = 1 + 2 * X**2 * self.sigma**2 + 2 * self.sigma_0**2
         term2 = 1 + 2 * Xp**2 * self.sigma**2 + 2 * self.sigma_0**2
@@ -56,9 +82,10 @@ class arcSin(gpx.kernels.AbstractKernel):
         )
         return (numerator / denominator).squeeze()
     
-    # @jax.jit
     def dX_dXp(self, X: Float[Array, "1 D"], Xp: Float[Array, "1 D"]) -> Float[Array, "1"]:
-        # Constants and adjustments
+        """
+        Calculate the derivative of the kernel with respect to X and Xp.
+        """
         numerator = 4 * self.sigma**2 * (1 + 4 * self.sigma_0**2)
         
         # Calculate the terms used in the denominator
@@ -78,8 +105,10 @@ class arcSin(gpx.kernels.AbstractKernel):
         # Return the calculated derivative
         return (numerator / denominator).squeeze()
 
-    # @jax.jit
     def dX_dX(self, X: Float[Array, "1 D"], Xp: Float[Array, "1 D"]) -> Float[Array, "1"]:
+        """
+        Calculate the derivative of the kernel with respect to X twice.
+        """
 
         # Calculate components of the numerator
         term1 = -X * Xp * self.sigma**2 * (3 + 6 * X**2 * self.sigma**2 + 4 * Xp**2 * self.sigma**2)
@@ -98,9 +127,10 @@ class arcSin(gpx.kernels.AbstractKernel):
         
         return (numerator / denominator).squeeze()
     
-    # @jax.jit
     def dXp_dXp(self, X: Float[Array, "1 D"], Xp: Float[Array, "1 D"]) -> Float[Array, "1"]:
-        # calculate the derivative of the kernel with respect to Xp and Xp
+        """
+        Calculate the derivative of the kernel with respect to Xp twice.
+        """
         
         # Components of the numerator
         part1 = X * Xp * self.sigma**2 * (3 + 4 * X**2 * self.sigma**2 + 6 * Xp**2 * self.sigma**2)
@@ -120,9 +150,10 @@ class arcSin(gpx.kernels.AbstractKernel):
         # Calculate and return the derivative
         return (numerator / denominator).squeeze()
     
-    # @jax.jit
     def dXp2_dX(self, X: Float[Array, "1 D"], Xp: Float[Array, "1 D"]) -> Float[Array, "1"]:
-        # calculate the derivative of the kernel with respect to Xp twice and X
+        """
+        Calculate the derivative of the kernel with respect to Xp twice and X.
+        """
         
         # Calculation of the numerator
         numerator = -24 * self.sigma**4 * (1 + 4 * self.sigma_0**2) * (Xp - 2 * (X - Xp) * self.sigma_0**2)
@@ -139,9 +170,10 @@ class arcSin(gpx.kernels.AbstractKernel):
         # Calculate and return the derivative
         return (numerator / denominator).squeeze()
 
-    # @jax.jit
     def dX2_dXp(self, X: Float[Array, "1 D"], Xp: Float[Array, "1 D"]) -> Float[Array, "1"]:
-        # calculate the derivative of the kernel with respect to X twice and Xp
+        """
+        Calculate the derivative of the kernel with respect to X twice and Xp.
+        """
         
         # Components of the numerator
         numerator = -24 * self.sigma**4 * (1 + 4 * self.sigma_0**2) * (X + 2 * (X - Xp) * self.sigma_0**2)
@@ -158,10 +190,11 @@ class arcSin(gpx.kernels.AbstractKernel):
         # Calculate and return the derivative
         return (numerator / denominator).squeeze()
     
-    # @jax.jit
     def dX2_dXp2(self, X: Float[Array, "1 D"], Xp: Float[Array, "1 D"]) -> Float[Array, "1"]:
-        # calculate the derivative of the kernel with respect to X twice and Xp twice
-         # Calculation of the numerator
+        """
+        Calculate the derivative of the kernel with respect to X twice and Xp twice.
+        """
+        # Calculation of the numerator
         part1 = -5 * X * Xp * self.sigma**2
         part2 = (-1 + 8 * X**2 * self.sigma**2 - 20 * X * Xp * self.sigma**2 + 8 * Xp**2 * self.sigma**2) * self.sigma_0**2
         part3 = 4 * (-1 + 4 * X**2 * self.sigma**2 - 8 * X * Xp * self.sigma**2 + 4 * Xp**2 * self.sigma**2) * self.sigma_0**4
@@ -181,6 +214,21 @@ class arcSin(gpx.kernels.AbstractKernel):
 
 @dataclass(frozen=False)
 class WaveKernel(gpx.kernels.AbstractKernel):
+    """
+    The WaveKernel is a kernel that is used to solve 2D wave equation using the GP model, with RBFs as base kernels for each dimension.
+
+    The kernel is defined as:
+        k(x, x') = k_u(x, x') + k_v(x, x') 
+    where:
+        k_u(x, x') = k_u(x_1, x_1') + k_u(x_2, x_2')
+        k_v(x, x') = k_v(x_1, x_1') + k_v(x_2, x_2')
+
+    Methods:
+
+    __call__: Calculate the kernel value
+    """
+
+
     # define the kernel for the u and v values
     kernel_u: gpx.kernels.AbstractKernel = gpx.kernels.RBF(active_dims=[0])
     kernel_v: gpx.kernels.AbstractKernel = gpx.kernels.RBF(active_dims=[0])
@@ -188,13 +236,14 @@ class WaveKernel(gpx.kernels.AbstractKernel):
     # define the delta_t parameter
     delta_t: ScalarFloat = param_field(jnp.array(0.001), trainable = False)
     
-    @jax.jit
     def __call__(
         self, 
         X: Float[Array, "1 D"], 
         Xp: Float[Array, "1 D"]
     ) -> Float[Array, "1"]:
-        
+        """
+        Calculate the kernel value at X and Xp.
+        """
         # use t to track the time
         # i.e. t = 0 is when we are looking at the n_1th time
         # and t = 1 is when we are looking at the nth time
@@ -221,7 +270,7 @@ class WaveKernel(gpx.kernels.AbstractKernel):
         # hessian of the kernel
         hess_kernel_u = k_u * ((X-Xp)**2/self.kernel_u.lengthscale**4 - 1/self.kernel_u.lengthscale**2)
         
-        # hess_hess_kernel = jnp.array(hessian(hessian(self.kernel))(X, Xp), dtype=jnp.float64)
+        # hessian of the hessian of the kernel
         hess_hess_kernel_u = k_u * (3/self.kernel_u.lengthscale**4 - 6*(X - Xp)**2/self.kernel_u.lengthscale**6 + (X - Xp)**4/self.kernel_u.lengthscale**8)
 
 

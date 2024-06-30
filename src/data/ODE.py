@@ -1,5 +1,7 @@
 
 # implement the ODE solver using Forward Euler method, and Backward Euler method and Runge-Kutta method
+# The ODE_solver class is used to generate the solution of of ODEs in the jupyter notebooks
+
 import numpy as np
 from scipy.optimize import fsolve
 import matplotlib.pyplot as plt
