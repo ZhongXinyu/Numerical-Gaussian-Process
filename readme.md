@@ -16,47 +16,6 @@ conda env create -f environment.yml
 conda activate GaussianProcessProject
 ```
 
-## Structure
-```
-├── testdata
-│   ├── burger_eqn.json
-│   ├── wave_eqn.json
-
-├── src
-│   ├── solver
-│   │   ├── burger_equation_solve_arcSin.ipynb
-│   │   ├── burger_equation_solve_RBF.ipynb
-│   │   ├── wave_equation_solve_RBF.ipynb
-
-│   ├── data
-│   │   ├── burger_equation.ipynb
-│   │   ├── wave_equation.ipynb
-
-│   ├── plot_graphs.ipynb
-
-
-├── result
-│   ├── Burger_{kernel}_{**}_test_points_{**}_noise_{**}_timestep
-│   │   ├── error.npy
-│   │   ├── u_mean.npy
-│   │   ├── u_std.npy
-│   │   ├── x.npy
-
-
-├── report
-│   ├── report.pdf
-│   ├── executive_summary.pdf
-
-├── environment.yml
-
-├── LICENSE.md
-
-├── Doxyfile
-
-└── README.md
-
-```
-
 ## Folder Documentation
 
 ### `testdata` Directory
@@ -104,7 +63,7 @@ To be able to use the new function, the function `predict_with_prev_cov()` shoul
 The notebooks contain the code for the Gaussian Process to solve linear partial differential equations, such as the Burger Equation and the Wave Equation.
 - Before running the notebooks, make sure to install the required packages in the environment.yml file, and edit the parameters in the notebooks as needed.
 
-The `plot_graphs.ipynb` notebook allows you to plot the results of the Gaussian Process against the actual solution, or against different parameters.
+The `plot_graphs.ipynb` notebook allows you to plot the results of the numerical Gaussian Process against the actual solution, or against different parameters.
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE.md) file for details
